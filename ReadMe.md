@@ -114,26 +114,38 @@
 │
 └── docker-compose.yml
 
-//Cтандартную структурf и именования проекта, которая будет более отражать практики и паттерны, применяемые в крупных проектах:
+//Cтандартную структур и именования проекта, которая будет более отражать практики и паттерны, применяемые в крупных проектах:
 
-/StartupHub
+/UserService
 │
-├── /UserService
-│   ├── /API                // Контроллеры и точки входа
-│   ├── /Application        // Слой приложения, включает сервисы, хендлеры команд/запросов
-│   ├── /Domain
-│   │   ├── /Entities      // Сущности (модели)
-│   │   ├── /ValueObjects  // Значимые объекты
-│   │   └── /Aggregates    // Агрегаты (если применимо)
-│   ├── /Infrastructure    // Реализация доступа к данным и других технических деталей
-│   │   ├── /Persistence   // DAL, доступ к данным
-│   │   ├── /Repositories  // Репозитории
-│   │   └── /Migrations    // Миграции (если используется база данных)
-│   ├── /DTOs              // Data Transfer Objects
-│   ├── /Extensions        // Расширения для различных сущностей и функционала
-│   ├── Program.cs
-│   ├── appsettings.json
-│   └── UserService.csproj
+├── Application/               // Бизнес-логика (Use Cases / Interfaces)
+│   ├── Interfaces/            // Контракты для сервисов и репозиториев
+│   ├── Services/              // Имплементации Use Cases
+│   └── DTOs/                  // Объекты переноса данных (DTO)
+│
+├── Domain/                    // Предметная область (чистая логика, без зависимостей)
+│   ├── Entities/              // Основные бизнес-сущности
+│   ├── ValueObjects/          // Объекты-значения
+│   ├── Enums/                 // Перечисления
+│   └── Exceptions/            // Исключения предметной области
+│
+├── Infrastructure/           // Инфраструктура (MySQL, ADO.NET и внешние сервисы)
+│   ├── Persistence/           // Репозитории и ADO.NET-реализация
+│   │   ├── DbContexts/        // Классы подключения к БД (MySqlConnection, DbHelper)
+│   │   └── Repositories/      // Репозитории с SQL-запросами вручную
+│   ├── Configurations/        // Конфигурация подключения, константы
+│   └── ExternalServices/      // REST/gRPC-клиенты, интеграции
+│
+├── API/                      // Веб-слой
+│   ├── Controllers/
+│   ├── Middleware/
+│   └── Filters/               // Валидация, логирование и прочее
+│
+├── Mappings/                 // AutoMapper-профили (если используется)
+│
+├── UserService.csproj
+├── appsettings.json
+└── Program.cs                // Bootstrap + Dependency Injection
 
 ```
 
