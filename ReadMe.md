@@ -129,23 +129,29 @@
 │   ├── Enums/                 // Перечисления
 │   └── Exceptions/            // Исключения предметной области
 │
-├── Infrastructure/           // Инфраструктура (MySQL, ADO.NET и внешние сервисы)
+├── Infrastructure/           // Инфраструктура (MySQL, ADO.NET, gRPC и логирование)
 │   ├── Persistence/           // Репозитории и ADO.NET-реализация
-│   │   ├── DbContexts/        // Классы подключения к БД (MySqlConnection, DbHelper)
-│   │   └── Repositories/      // Репозитории с SQL-запросами вручную
-│   ├── Configurations/        // Конфигурация подключения, константы
-│   └── ExternalServices/      // REST/gRPC-клиенты, интеграции
+│   │   ├── DbContexts/        // ADO.NET подключения к MySQL
+│   │   └── Repositories/      // Репозитории с SQL-запросами
+│   ├── Configurations/        // Конфигурация подключения и логирования (Serilog)
+│   ├── ExternalServices/      // gRPC-клиенты и интеграции с другими сервисами
+│   └── Logging/               // Serilog-конфигурация
 │
-├── API/                      // Веб-слой
-│   ├── Controllers/
-│   ├── Middleware/
-│   └── Filters/               // Валидация, логирование и прочее
+├── API/                      // Веб-слой (REST API)
+│   ├── Controllers/           // HTTP endpoints
+│   ├── Middleware/            // Кастомные middleware
+│   └── Filters/               // Фильтры (валидация, логирование и пр.)
+│
+├── Grpc/                     // gRPC-сервер и клиенты
+│   ├── Services/              // gRPC-реализация
+│   └── Protos/                // .proto-файлы
 │
 ├── Mappings/                 // AutoMapper-профили (если используется)
 │
+├── Dockerfile                // Docker-контейнер для UserService
 ├── UserService.csproj
 ├── appsettings.json
-└── Program.cs                // Bootstrap + Dependency Injection
+└── Program.cs 
 
 ```
 
