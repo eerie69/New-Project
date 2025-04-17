@@ -1,75 +1,51 @@
-## Первый пример базовой структуры микросервисов на ADO.NET (C#)
+## Ппример базовой структуры микросервисов на ADO.NET (C#)
 
 ```C#
-/StartupHub
+/UserService
 │
-├── /services
-│   ├── /UserService
-│   │   ├── Controllers
-│   │   │   └── UserController.cs
-│   │   ├── DAL
-│   │   │   ├── DbConnectionFactory.cs
-│   │   │   └── UserRepository.cs
-│   │   ├── BLL
-│   │   │   └── UserService.cs
-│   │   ├── Models
-│   │   │   └── User.cs
-│   │   ├── Program.cs
-│   │   └── appsettings.json
-│   │
-│   ├── /ProductService
-│   │   ├── Controllers
-│   │   │   └── StartupController.cs
-│   │   ├── DAL
-│   │   │   └── StartupRepository.cs
-│   │   ├── BLL
-│   │   │   └── StartupService.cs
-│   │   ├── Models
-│   │   │   └── Startup.cs
-│   │   └── Program.cs
-│   │
-│   ├── /MediaService
-│   │   ├── Controllers
-│   │   │   └── MediaController.cs
-│   │   ├── DAL
-│   │   │   └── MediaRepository.cs
-│   │   ├── BLL
-│   │   │   └── MediaService.cs
-│   │   ├── Models
-│   │   │   └── Media.cs
-│   │   └── Program.cs
-│   │
-│   ├── /ChatBotService
-│   │   ├── Controllers
-│   │   │   └── ChatController.cs
-│   │   ├── DAL
-│   │   │   └── ChatRepository.cs
-│   │   ├── BLL
-│   │   │   └── ChatService.cs
-│   │   ├── Models
-│   │   │   └── ChatMessage.cs
-│   │   └── Program.cs
-│   │
-│   ├── /DocumentService
-│       ├── Controllers
-│       │   └── DocumentController.cs
-│       ├── DAL
-│       │   └── DocumentRepository.cs
-│       ├── BLL
-│       │   └── DocumentService.cs
-│       ├── Models
-│       │   └── Document.cs
-│       └── Program.cs
+├── API/                      // Веб-слой (REST API)
+│   ├── Controllers/           // HTTP endpoints
+│   ├── Middleware/            // Кастомные middleware
+│   └── Filters/               // Фильтры (валидация, логирование и пр.)
 │
-├── /shared
-│   ├── DTOs
-│   │   └── SharedModels.cs
-│   ├── Interfaces
-│   │   └── IRepository.cs
-│   └── Utils
-│       └── Extensions.cs
+│         
+├── Application/               // Бизнес-логика (Use Cases / Interfaces)
+│   ├── Interfaces/            // Контракты для сервисов и репозиториев
+│   ├── Services/              // Имплементации Use Cases
+│   └── DTOs/                  // Объекты переноса данных (DTO)
+│   │   ├── UserDto.cs
+│   │   ├── TeamDto.cs
+│   │   └── NoteDto.cs
 │
-└── docker-compose.yml
+│
+├── Models/                    
+│   ├── User.cs
+│   ├── Team.cs
+│   └── Note.cs
+│
+├── Infrastructure/           // Инфраструктура (MySQL, ADO.NET, gRPC и логирование)
+│   ├── Persistence/           // Репозитории и ADO.NET-реализация
+│   │   ├── DbContexts/        // ADO.NET подключения к MySQL
+│   │   └── Repositories/      // Репозитории с SQL-запросами
+│   ├── Configurations/        // Конфигурация подключения и логирования (Serilog)
+│   ├── ExternalServices/      // gRPC-клиенты и интеграции с другими сервисами
+│   └── Logging/               // Serilog-конфигурация
+│
+│
+├── Grpc/                     // gRPC-сервер и клиенты
+│   ├── Services/              // gRPC-реализация
+│   └── Protos/                // .proto-файлы                       
+│
+├── Mappers/
+│   └── UserMappers.cs
+│
+├── Config/                     
+│   └── dbConn.json/                       
+│
+├── Dockerfile               
+├── UserService.csproj
+├── appsettings.json
+└── Program.cs 
 
 // Каждый сервис использует чистый ADO.NET внутри репозиториев и передает данные в BLL.
 // BLL реализует бизнес-логику, а контроллеры работают с REST API.
@@ -80,80 +56,6 @@
 
 * Interfaces: базовые абстракции вроде IRepository, если стилистика кода должна быть одинаковой.
 
-* Utils: мелкие расширения или общие утилиты, не завязанные на конкретный сервис.
-
-## Второй пример базовой структуры микросервисов где микросервисы полностью независимые на ADO.NET (C#)
-
-```C#
-
-/StartupHub
-│
-├── /UserService
-│   ├── Controllers/
-│   ├── DAL/
-│   ├── BLL/
-│   ├── Models/
-│   ├── DTOs/
-│   ├── Program.cs
-│   ├── appsettings.json
-│   └── UserService.csproj
-│
-├── /ProductService
-│   ├── Controllers/
-│   ├── DAL/
-│   ├── BLL/
-│   ├── Models/
-│   ├── DTOs/
-│   ├── Program.cs
-│   ├── appsettings.json
-│   └── ProductService.csproj
-│
-├── /MediaService
-├── /ChatBotService
-├── /DocumentService
-│
-└── docker-compose.yml
-
-//Cтандартную структур и именования проекта, которая будет более отражать практики и паттерны, применяемые в крупных проектах:
-
-/UserService
-│
-├── Application/               // Бизнес-логика (Use Cases / Interfaces)
-│   ├── Interfaces/            // Контракты для сервисов и репозиториев
-│   ├── Services/              // Имплементации Use Cases
-│   └── DTOs/                  // Объекты переноса данных (DTO)
-│
-├── Domain/                    // Предметная область (чистая логика, без зависимостей)
-│   ├── Entities/              // Основные бизнес-сущности
-│   ├── ValueObjects/          // Объекты-значения
-│   ├── Enums/                 // Перечисления
-│   └── Exceptions/            // Исключения предметной области
-│
-├── Infrastructure/           // Инфраструктура (MySQL, ADO.NET, gRPC и логирование)
-│   ├── Persistence/           // Репозитории и ADO.NET-реализация
-│   │   ├── DbContexts/        // ADO.NET подключения к MySQL
-│   │   └── Repositories/      // Репозитории с SQL-запросами
-│   ├── Configurations/        // Конфигурация подключения и логирования (Serilog)
-│   ├── ExternalServices/      // gRPC-клиенты и интеграции с другими сервисами
-│   └── Logging/               // Serilog-конфигурация
-│
-├── API/                      // Веб-слой (REST API)
-│   ├── Controllers/           // HTTP endpoints
-│   ├── Middleware/            // Кастомные middleware
-│   └── Filters/               // Фильтры (валидация, логирование и пр.)
-│
-├── Grpc/                     // gRPC-сервер и клиенты
-│   ├── Services/              // gRPC-реализация
-│   └── Protos/                // .proto-файлы
-│
-├── Mappings/                 // AutoMapper-профили (если используется)
-│
-├── Dockerfile                // Docker-контейнер для UserService
-├── UserService.csproj
-├── appsettings.json
-└── Program.cs 
-
-```
 
 ## Пример базовой структуры с моделями
 
