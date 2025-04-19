@@ -29,7 +29,6 @@
 │   │   └── Repositories/      // Репозитории с SQL-запросами
 │   ├── Configurations/        // Конфигурация подключения и логирования (Serilog)
 │   ├── ExternalServices/      // gRPC-клиенты и интеграции с другими сервисами
-│   └── Logging/               // Serilog-конфигурация
 │
 │
 ├── Grpc/                     // gRPC-сервер и клиенты
@@ -38,6 +37,10 @@
 │
 ├── Mappers/
 │   └── UserMappers.cs
+│
+│
+├── Database/
+│   └── init.sql               //SQL-таблицы
 │
 ├── Config/                     
 │   └── dbConn.json/                       
