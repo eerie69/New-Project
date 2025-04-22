@@ -38,12 +38,8 @@
 ├── Mappers/
 │   └── UserMappers.cs
 │
-│
 ├── Database/
-│   └── init.sql               //SQL-таблицы
-│
-├── Config/                     
-│   └── dbConn.json/                       
+│   └── init.sql               //SQL-таблицы                      
 │
 ├── Dockerfile               
 ├── UserService.csproj
