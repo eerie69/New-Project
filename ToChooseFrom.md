@@ -83,12 +83,12 @@ public class Notification
 ### 2.1. Основные компоненты
     Компонент	                        Описание
 
-#### API Gateway	REST/gRPC       endpoints для приема запросов.
-#### Notification Dispatcher	        Маршрутизация уведомлений по каналам.
-#### Templates Engine	        Генерация контента (шаблоны для email/SMS).
-#### Delivery Providers	        Адаптеры для внешних сервисов (SendGrid, Twilio и т.д.).
-#### Retry & Dead Letter             Queue	Повторная отправка при ошибках.
-#### User Preferences	        Настройки пользователей (каналы, время получения).
+#### API Gateway	↔	 REST/gRPC endpoints для приема запросов.
+#### Notification Dispatcher	↔        Маршрутизация уведомлений по каналам.
+#### Templates Engine	    ↔	    Генерация контента (шаблоны для email/SMS).
+#### Delivery Providers	    ↔	    Адаптеры для внешних сервисов (SendGrid, Twilio и т.д.).
+#### Retry & Dead Letter       ↔	      Queue	Повторная отправка при ошибках.
+#### User Preferences	   ↔	     Настройки пользователей (каналы, время получения).
 
 
 ### 2.2. База данных (MySQL)
